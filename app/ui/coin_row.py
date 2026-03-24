@@ -106,14 +106,16 @@ class CoinRow(QWidget):
         layout.addWidget(self._sparkline)
         layout.addWidget(self._remove_btn)
 
-    def update_price(self, price: float, change_24h: float):
-        self._price_label.setText(_format_price(price))
-        sign = "+" if change_24h >= 0 else ""
-        self._change_label.setText(f"{sign}{change_24h:.2f}%")
-        color = COLOR_POSITIVE if change_24h >= 0 else COLOR_NEGATIVE
-        self._change_label.setStyleSheet(
-            f"color: {color}; font-size: 11px; font-weight: bold;"
-        )
+    def update_price(self, price: float, change_24h: float | None):
+        if price:
+            self._price_label.setText(_format_price(price))
+        if change_24h is not None:
+            sign = "+" if change_24h >= 0 else ""
+            self._change_label.setText(f"{sign}{change_24h:.2f}%")
+            color = COLOR_POSITIVE if change_24h >= 0 else COLOR_NEGATIVE
+            self._change_label.setStyleSheet(
+                f"color: {color}; font-size: 11px; font-weight: bold;"
+            )
 
     def update_sparkline(self, prices: list):
         self._sparkline.set_data(prices)

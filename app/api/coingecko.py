@@ -30,7 +30,7 @@ def fetch_prices(coin_ids: list, currency: str = "usd") -> dict:
                 entry = data[coin_id]
                 result[coin_id] = {
                     "price": entry.get(currency, 0.0),
-                    "change_24h": entry.get(f"{currency}_24h_change", 0.0),
+                    "change_24h": entry.get(f"{currency}_24h_change"),  # None if missing
                 }
         return result
     except Exception as e:

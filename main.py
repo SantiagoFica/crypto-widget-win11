@@ -5,16 +5,20 @@ from PyQt6.QtCore import Qt
 
 from app.config import AppConfig
 from app.ui.widget import CryptoWidget
+from app.tray import TrayIcon
 
 
 def main():
     app = QApplication(sys.argv)
-    app.setAttribute(Qt.ApplicationAttribute.AA_UseHighDpiPixmaps)
     app.setFont(QFont("Segoe UI", 10))
-    app.setQuitOnLastWindowClosed(True)
+    app.setQuitOnLastWindowClosed(False)  # keep alive via tray icon
 
     config = AppConfig.load()
     widget = CryptoWidget(config)
+
+    tray = TrayIcon(widget)
+    tray.show()
+
     widget.show()
 
     sys.exit(app.exec())
